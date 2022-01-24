@@ -18,13 +18,12 @@
             (-) Kho thịt
         ------------------------------------------------------------
 - Phân tích bài toán : Mô hình sử dụng MVC
-Thêm - Sửa - Xóa (Task)
+Thêm - Sửa - Xóa (Task) : Input : Time (value hẹn giờ) , Text ( nội dung công việc) 
     Từ Task Cha - Thêm - Sửa - Xóa Sub-Task
     - Lấy giờ từ lịch hẹn giờ của user - còn khoảng 5 phút thì gửi thông báo 
     - hết giờ => thông báo 
     - bắt đầu task mới => thông báo 
-    - nhiều task = > import file excel 
-    - xóa theo date mà user lọc theo ngày 
-    - 
+    - nhiều task = > import file excel Input : File (dữ liệu gồm công việc , giờ theo format)
+    - xóa theo date mà user lọc theo ngày  Input : DateTime (value ngày muống xóa)
 
 
