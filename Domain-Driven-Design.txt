@@ -1,0 +1,80 @@
+---------------------------------------------Domain-Driven-Design---------------------------------------25/12/202-------------------------
+1 - Lý do DDD ra đời : 
+    Luôn luôn trong dự án ( không tính dự án đơn giản thì luôn luôn sẽ có 2 tác nhân tối thiểu , quan trọng chính tạo nên 1 dự án):    
+        + DEV (Thợ xây)
+        + BA (Người biết về nghiệp vụ nhưng lại không biết xây)
+    VD : xây dựng 1 dự án thương mại điện tử : những mô hình có thể áp dụng như MVC , MVVM
+    - vấn đề mấu chốt là chỉ nguyên dev không tạo nên được mùa xuân => BA join vào => phân tích nghiệp vụ => sảy ra vấn đề 
+    - vấn đề : BA : không biết controller , model là cái gì => nhìn code như mù chữ
+                Coder : Chỉ biết . NET , design pattern 
+    ===> để giải quyết vấn đề trên thì ta có thể nghĩ đến DDD 
+    (??) What is DDD? => Nó là 1 design pattern , xây dự dự án không phải thông quá class , object hay layout mà qua góc nhìn của 1 architect 
+    Thông thường ứng dụng sẽ được tổ chức thành 4 tầng :
+------------------------------------------------------------------------------------------------------------------------------------------
+
+    |-----------------|                     |--------------|            |--------------|            |-----------------|
+    | User Interface  |-------------------> | Application  |----------> | Domain       |----------->| Infastructure   |
+    |-----------------|                     |--------------|            |--------------|            |-----------------|
+
+------------------------------------------------------------------------------------------------------------------------------------------
+2. Hiêu về các tầng 
+    2.1. User Interface Layer:
+    - Lý thuyết : làm nhiệm vụ biểu diễn thông tin trực quan cho user và dịch các user command ( ở đây chúng ta có thể hiểu 
+        là các event xảy ra trên giao diện khi được trigger ( nhấn nút trên các UI input control ) là các sẽ được dịch thành 
+        các command xử lý ở các tầng dưới.
+    - Hiểu : Tầng này nhận các param, request data mà user gửi sang 
+    2.2. Application Layer: 
+    -Lý Thuyết : Tầng này được thiết kế khá mỏng ( thin ) với ít logic xử  lý chỉ để làm nhiệm vụ coordinate các Activity của 
+        Application và không chứa Business Logic, nó không chứa state của các Business Object mà chỉ chứa state của Application 
+        Task Progress. Chúng ta có thể hình dung phần này gần giống với các Controller trong mô hình MVC chỉ làm nhiệm vụ forward 
+        các task đến nơi cần xử lý.
+        - Hiểu :điều hướng các hoạt động , không chứa logic xử lý hay bất cứ gì ( ncl chỉ ăn và điều hướng)
+    2.3. Domain Layer:
+        -Lý thuyết : Đây là trái tim của ứng dụng ( Business Software ), các  state của Business Object đều nằm ở đây. Việc lưu 
+        trữ ( persistence ) các Business Object và các state của nó được chuyển giao cho tầng Infrastructure ở dưới.
+        -Hiểu : Chứa các model của ứng dụng , dù có dùng framework gì thì cũng kệ , nó sẽ ko bị tác động vào 
+    2.4 Infrastructure Layer:
+        -Lý thuyết :Đóng vai trò cung cấp thư viện ( supporting libraries )cho các tầng khác. Nó cung cấp cơ chế giao tiếp 
+        ( communication ) giữa các Layer  với nhau, cũng như cung cấp các chức năng khác như lưu trữ ( persistence )
+         các Business Object của tầng Domain.
+        -Hiểu : Đây sẽ là nơi mình cung cấp chức năng thao tác với DB
+3.Ba điểm mấu chốt trong DDD 
+    -1 .Đào sâu kiến thức với với Domain Expert
+    -2 .Tập trung vào mô hình của từng Sub Domain 
+    -3 .Thực thi từng sub Domain
+4.Keyword quan trọng 
+    4.1 -Domain model: Mô tả , tưởng tượng các cái nghiệm vụ  => phân tách , gom gộp =>modun hóa nó lên 
+    <=> giải quyết bài toán to-do-list : 
+    => Nó chính là tính năng : (Cái mà mình sơ khai có được , hiểu đơn giản , mơ màng )
+    -------------------Phân tích bài trước-----------------------------------------------------------
+        =>Thêm - Sửa - Xóa (Task) : Input : Time (value hẹn giờ) , Text ( nội dung công việc) 
+        Từ Task Cha - Thêm - Sửa - Xóa Sub-Task
+        - Lấy giờ từ lịch hẹn giờ của user - còn khoảng 5 phút thì gửi thông báo 
+        - hết giờ => thông báo 
+        - bắt đầu task mới => thông báo 
+        - nhiều task = > import file excel Input : File (dữ liệu gồm công việc , giờ theo format)
+        - xóa theo date mà user lọc theo ngày  Input : DateTime (value ngày muống xóa)
+    -----------------------------------------------------------------------------------------
+    =>Step 2 : Break thành các sub Domain 
+         - Với bài toán trên sub domain sẽ là : 
+            +Lập lịch công việc (=> phức tạp : trùng lịch rồi => ko nhớ)
+            +Quản lý người dùng  (CURD )
+    =>Step 3 : liệt kê keyword nghiệm vụ với Expert Domain để bản thân sau này có thể nói chuyện vs 
+    người khác qua keyword 
+    =>Step 4 : Mô tả luồng dữ liệu 
+    NGƯỜI DÙNG => ĐẶT LỊCH => ----|Resources : nếu cần thoải mãn một điều gì đó|--------
+5.Model Anemic vs Rich Model 
+    -Model Anemic : Nguyên thủy , thuần túy , sẽ chỉ khai báo các thuộc tính mô tả 1 sự vật ( ứng dụng trong entity) => thể hiện cần lưu trữ gì 
+    -Model Rich : model Anemic + Hành vi => cập nhật thời gian , comfirm lại => (ứng dụng trong DDD) => thể hiện nghiệp vụ
+6.entities vs Value Object 
+   -entity : xác định 1 đối tượng thông qua id => tính duy nhất => tính liên tục => sẽ ko bao h thay đổi , ko bao h bị chiếm quyền 
+    -Value Object : xác định bằng giá trị => Datetime => valueObject => giá trị thay đổi => mọi thứ thay đổi (thay đổi 1 đối tượng bằng cách tạo 
+    ra 1 đối tượng mới và gán ngược)
+7. Domain Service : STATELESS
+    Lớp A gọi => LỚP B =>Lớp B quyết định mình làm gì ?????????
+8.pattern : được sử dụng nhiều - Responsitories
+                                - Factory
+                                - Aggefates (quan trọng)   
+
+
+
