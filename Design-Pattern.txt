@@ -1,0 +1,34 @@
+--------------Design-Pattern-Repository------------------26/01/20222------------
+-Repository là gì : hiểu đơn giản - nó là một lớp chung gian giữa tầng sử lý logic và data giúp cho 
+việc truy cập chặt chẽ hơn và bảo mật hơn .
+-Repository giải quyết vấn đề gì :
+    (+) Giả sử khi không sử dụng 1 design pattern nào thông thường controller sẽ bị gắn chặt với với ORM 
+    để sử lý truy vấn CURD cho đối tượng nào đó , nhưng sẽ xảy ra vấn đề nếu như trong tương lai chúng 
+    ta muốn thay đổi cấu trúc của table => ta sẽ phải tìm lại toàn bị các controller có liên quan đề 
+    table đó và sửa nó 
+    (+) Sẽ không thể viết test cho controller được
+-Repository giải quyết vấn đề trên như thé nào ??
+    Thay ví Controller ==> Model thì bây giờ Thằng Repository sẽ thay Controller thao tác với Model 
+    => Sau đó controller sẽ chỉ việc dùng Repository thông qua Injection 
+    Hơi khó hiểu nhưng luồng dữ liệu sẽ đi như thế này 
+
+
+========================================================Mô hình luồng đi====================================
+
+    |-----------|       |------------|      |---------------|               |--------------|
+    | Program   |---->  | Controller |--->  | DataService   |-------------->| Model        |
+    |-----------|       |------------|      |---------------|               |--------------|
+                                                ||       ||
+                                                ||       ||
+                                        |----------|    |-------------|
+                                        |Repository|    |   DataAccess|
+                                        |----------|    |-------------|
+
+===============================================================================================================
+
+===> Xem ví dụ về Repository tại Folder Example-Repository
+
+
+
+
+

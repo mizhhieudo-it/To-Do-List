@@ -1,0 +1,35 @@
+﻿@model IEnumerable<Student_Management.Models.Student>
+<table class="table table-dark">
+    <thead>
+        <tr>
+            <td>ID</td>
+            <td>Code</td>
+            <td>FullName</td>
+            <td>Birthday</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach ( var item in Model)
+       {
+            <tr>
+                <td>
+                    @item.Id
+                </td>
+                <td>
+                    @item.Code
+                </td>
+                <td>
+                    @item.Name
+                </td>
+                <td>
+                    @item.BirthDay
+                </td>
+                <td>
+                    <button class="btn btn-outline-danger">Xem chi tiết</button>
+                </td>
+            </tr>
+           
+       }
+    </tbody>
+</table>
+
